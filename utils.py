@@ -17,7 +17,7 @@ def sidebar_setup():
     """
 
     # SAFELY load logo
-    logo_path = os.path.join("static", "dj_logo.png")
+    logo_path = os.path.join("static", "rc_logo.png")
     if os.path.exists(logo_path):
         st.sidebar.image(logo_path, width=60)
     else:
