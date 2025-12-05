@@ -12,3 +12,7 @@ validators
 arxiv
 wikipedia
 yt-dlp==2024.11.4
+langchain-openai`
+faiss-cpu
+pyMuPDF
+pypdf

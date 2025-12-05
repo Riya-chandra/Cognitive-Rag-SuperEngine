@@ -35,7 +35,7 @@ def generate_response(question, api_key, engine, api_choice, temperature, max_to
 
 # Main Streamlit app
 def main():
-    st.set_page_config(page_title="🤖 Friendly AI Chatbot", layout="wide")
+    st.set_page_config(page_title="Friendly AI Chatbot", layout="wide")
 
     # Load CSS
     with open("static/styles.css", "r") as f:
@@ -46,7 +46,7 @@ def main():
     st.markdown(
         """
         <div class="title-box">
-            <h1>🤖 Friendly AI Chatbot 🐶</h1>
+            <h1> Friendly AI Chatbot</h1>
             <h3>Bringing you answers with speed, smarts, and a smile!</h3>
         </div>
         """,
