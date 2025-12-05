@@ -21,7 +21,7 @@ def sidebar_setup():
     if os.path.exists(logo_path):
         st.sidebar.image(logo_path, width=60)
     else:
-        st.sidebar.warning("Logo missing: static/dj_logo.png")
+        st.sidebar.warning("Logo missing: static/rj_logo.png")
 
     st.sidebar.title("API Key Selection")
 
