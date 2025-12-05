@@ -1,0 +1,14 @@
+streamlit
+langchain-chroma
+langchain-community
+langchain-core
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+python-dotenv
+openai
+transformers
+validators
+arxiv
+wikipedia
+yt-dlp==2024.11.4
