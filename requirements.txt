@@ -2,7 +2,7 @@ streamlit==1.51.0
 
 # LangChain correct compatible versions
 langchain==0.2.11
-langchain-core==0.2.23
+langchain-core
 langchain-community==0.2.6
 langchain-text-splitters==0.2.2
 
