@@ -2,7 +2,8 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-
+from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -10,7 +11,6 @@ from utils import sidebar_setup, initialize_llm
 
 load_dotenv()
 
-# Chat prompt template
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a cheerful and friendly chatbot. Please respond to the user's queries."),
@@ -18,37 +18,31 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-def generate_response(question, api_key, engine, api_choice, temperature=0.7, max_tokens=150):
-    """
-    Create llm based on api_choice and invoke the chain.
-    Returns a plain string.
-    """
+# Generate response based on the selected API
+def generate_response(question, api_key, engine, api_choice, temperature, max_tokens):
     if api_choice == "Groq":
-        llm = initialize_llm("Groq", api_key, engine, streaming=True, temperature=temperature, max_tokens=max_tokens)
+        llm = ChatGroq(groq_api_key=api_key, model_name=engine, streaming=True)
     elif api_choice == "OpenAI":
-        llm = initialize_llm("OpenAI", api_key, engine, temperature=temperature, max_tokens=max_tokens)
+        import openai
+        openai.api_key = api_key
+        llm = ChatOpenAI(model=engine, temperature=temperature, max_tokens=max_tokens)
     else:
         raise ValueError("Invalid API choice.")
-
+    
     output_parser = StrOutputParser()
     chain = prompt | llm | output_parser
+    return chain.invoke({'question': question})
 
-    # Some LangChain versions expect dict input for the prompt variables
-    result = chain.invoke({"question": question})
-    # result might be an object; convert to string safely
-    if hasattr(result, "content"):
-        return result.content
-    return str(result)
-
+# Main Streamlit app
 def main():
     st.set_page_config(page_title="🤖 Friendly AI Chatbot", layout="wide")
 
-    # Load CSS (optional)
-    css_path = "static/styles.css"
-    if os.path.exists(css_path):
-        with open(css_path, "r") as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    # Load CSS
+    with open("static/styles.css", "r") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+
+    # Display chatbot title
     st.markdown(
         """
         <div class="title-box">
@@ -59,36 +53,45 @@ def main():
         unsafe_allow_html=True
     )
 
+
+    # Sidebar setup for API and model selection
     api_choice, optional_api_key, engine = sidebar_setup()
 
-    # Temperature and max tokens
+    # Sliders for Temperature and Max Tokens
     temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.7)
     max_tokens = st.sidebar.slider("Max Tokens", 50, 300, 150)
 
+    
+    # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
+    # Display chat history
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
 
+    # Handle user input
     if user_input := st.chat_input("Your Question:"):
         st.session_state.messages.append({"role": "user", "content": user_input})
         st.chat_message("user").write(user_input)
 
         if api_choice != "None" and optional_api_key:
-            if not engine:
-                st.error("Please select an engine in the sidebar.")
-            else:
-                try:
-                    with st.spinner("Thinking... 🤔"):
-                        response = generate_response(user_input, optional_api_key, engine, api_choice, temperature, max_tokens)
+            try:
+                if not engine:
+                    st.error("Please select a valid engine.")
+                    return
 
-                    st.session_state.messages.append({"role": "assistant", "content": response})
-                    st.chat_message("assistant").write(response)
-                except Exception as e:
-                    st.error(f"Error: {e}")
+                # Spinner while generating the response
+                with st.spinner("Thinking... 🤔"):
+                    response = generate_response(user_input, optional_api_key, engine, api_choice, temperature, max_tokens)
+
+                st.session_state.messages.append({"role": "assistant", "content": response})
+                st.chat_message("assistant").write(response)
+            except Exception as e:
+                st.error(f"Error: {e}")
         else:
-            st.warning("Select an API and provide a valid key in the sidebar.")
+            st.warning("Select an API and provide a valid key.")
+
 
 if __name__ == "__main__":
     main()
