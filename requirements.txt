@@ -1,30 +1,27 @@
 streamlit==1.51.0
 
-# LangChain + LLM Providers
-langchain==0.1.17
-langchain-core==1.1.1
-langchain-community==0.4.1
-langchain-text-splitters==1.0.0
+# Compatible LangChain stack
+langchain==0.2.11
+langchain-core==0.2.20
+langchain-community==0.2.6
+langchain-text-splitters==0.2.2
+
+# LLM Providers
 langchain-openai==0.1.7
-langchain-groq==1.1.0
+langchain-groq==0.1.3
 
-# Embeddings + Huggingface
-huggingface-hub==0.36.0
-sentence-transformers==5.1.2
+# Embeddings + HF
+huggingface-hub==0.24.6
+sentence-transformers==2.2.2
 
-# PDF, Files, Text Processing
-pypdf==6.4.0
-PyMuPDF==1.24.10
+# File processing
+pypdf
+PyMuPDF
 
 # Utilities
-python-dotenv==1.0.1
-validators==0.35.0
-tiktoken==0.12.0
-yt-dlp==2025.11.12
-requests==2.32.5
+python-dotenv
+validators
+tiktoken
+requests
+yt-dlp
 
-# Vector DB (optional but useful)
-faiss-cpu==1.7.4
-
-# JSON + Performance
-orjson==3.11.4
