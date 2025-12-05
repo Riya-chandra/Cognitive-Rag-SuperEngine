@@ -1,18 +1,30 @@
-streamlit
-langchain-chroma
-langchain-community
-langchain-core
-langchain-groq
-langchain-huggingface
-langchain-text-splitters
-python-dotenv
-openai
-transformers
-validators
-arxiv
-wikipedia
-yt-dlp==2024.11.4
-langchain-openai`
-faiss-cpu
-pyMuPDF
-pypdf
+streamlit==1.51.0
+
+# LangChain + LLM Providers
+langchain==0.1.17
+langchain-core==1.1.1
+langchain-community==0.4.1
+langchain-text-splitters==1.0.0
+langchain-openai==0.1.7
+langchain-groq==1.1.0
+
+# Embeddings + Huggingface
+huggingface-hub==0.36.0
+sentence-transformers==5.1.2
+
+# PDF, Files, Text Processing
+pypdf==6.4.0
+PyMuPDF==1.24.10
+
+# Utilities
+python-dotenv==1.0.1
+validators==0.35.0
+tiktoken==0.12.0
+yt-dlp==2025.11.12
+requests==2.32.5
+
+# Vector DB (optional but useful)
+faiss-cpu==1.7.4
+
+# JSON + Performance
+orjson==3.11.4
