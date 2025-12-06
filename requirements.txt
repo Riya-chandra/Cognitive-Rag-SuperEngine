@@ -2,12 +2,12 @@ streamlit==1.51.0
 
 # LangChain correct compatible versions
 langchain==0.2.11
-langchain-core==0.2.23
-langchain-community==0.2.6
+langchain-core==0.2.26
+langchain-community==0.2.10
 langchain-text-splitters==0.2.2
 
 # LLM providers
-langchain-openai==0.1.7
+langchain-openai==0.1.17
 langchain-groq==0.1.9
 
 # HF + Embeddings
